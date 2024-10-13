@@ -1,0 +1,49 @@
+import pgzrun
+import random
+import time
+HEIGHT=800
+WIDTH=800
+TITLE="space"
+sat = []
+lines = []
+numofsat=10
+targetsat=0
+start=time.time()
+total = 0
+
+for i in range(numofsat):
+    d=random.randint(50,550)
+    c=random.randint(50,750)
+    thing = Actor("sat")
+    thing.pos=(d,c)
+    sat.append(thing)
+    
+def draw():
+    global total
+    satnum = 1
+    screen.blit("bg",(0,0))
+    for thing in sat:
+      thing.draw()
+      screen.draw.text(str(satnum),(thing.pos[0]+30,thing.pos[1]),color="red",fontsize=50)
+      satnum = satnum +1
+    for i in lines:
+        screen.draw.line(i[0],i[1],"white")
+    if targetsat<10:
+        total=time.time()-start
+    screen.draw.text(str(total),([0,0]),color="red",fontsize=50)
+def update():
+    pass
+        
+def on_mouse_down(pos):
+    global lines
+    global targetsat
+    if targetsat<10:
+    
+        if sat[targetsat].collidepoint(pos):
+            if targetsat > 0:
+                lines.append((sat[targetsat - 1].pos,sat[targetsat].pos))
+            targetsat=targetsat+1
+        else:
+            targetsat=0
+            lines=[]
+pgzrun.go()
